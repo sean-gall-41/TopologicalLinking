@@ -24,6 +24,6 @@ int main(int argc, char *argv[])
 	//// generate the SAW on the cubic lattice
 	//generate_closed_chain(chain, CHAIN_LEN, dirs, NUM_DIRS, DIM, &ctr, &key);
 	//print_chain(chain, CHAIN_LEN);
-	return (gui_init(&argc, &argv) && gui_run()) ? 0 : 1;	
+	return (gui_init(&argc, &argv) && gui_run()) ? 0 : 1;
 }
 
