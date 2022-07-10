@@ -18,8 +18,8 @@
 	}
 
 // inline data definitions
-DATA_DEF(vertex)
-DATA_DEF(fragment)
+DATA_DEF(bkgd_vertex)
+DATA_DEF(bkgd_fragment)
 
 struct shader
 {
@@ -42,8 +42,8 @@ struct loc
 };
 
 static struct loc loc_bkgd[] = {
-	[LOC_BKGD_VERTEX]  = { "vertex",  ATTRIBUTE },
-	[LOC_BKGD_TEXTURE] = { "texture", ATTRIBUTE }
+	[LOC_BKGD_VERTEX]  = {"vertex",  ATTRIBUTE},
+	[LOC_BKGD_TEXTURE] = {"texture", ATTRIBUTE}
 };
 
 // programs
@@ -65,8 +65,8 @@ static struct program
 }
 programs[] = {
 	[BKGD] = {
-			 .shader.vert = SHADER(vertex),
-			 .shader.frag = SHADER(fragment),
+			 .shader.vert = SHADER(bkgd_vertex),
+			 .shader.frag = SHADER(bkgd_fragment),
 			 .loc		  = loc_bkgd,
 			 .nloc		  = NELEM(loc_bkgd)
 	}
@@ -153,7 +153,8 @@ static void program_init(struct program *program)
 // NOTE: explicitly calling background program, will use struct loop when adding progs later
 void programs_init(void)
 {
-	program_init(&programs[BKGD]);
+	FOREACH(programs, p)
+	program_init(p);
 }
 
 void program_bkgd_use(void)

@@ -46,10 +46,10 @@ static void on_realize(GtkGLArea *glarea)
 
 	// connect update signal
 	g_signal_connect_swapped
-			( frame_clock
-			, "update"
-			, G_CALLBACK(gtk_gl_area_queue_render)
-			, glarea
+			(frame_clock,
+			 "update",
+			 G_CALLBACK(gtk_gl_area_queue_render),
+			 glarea
 			);
 
 	// start updating the clock
@@ -87,9 +87,9 @@ static void connect_glarea_signals(GtkWidget *glarea)
 {
 	// TODO: add more signals as needed
 	struct signal signals[] = {
-		//{ "resize",  G_CALLBACK(on_resize),  0},
 		{ "realize", G_CALLBACK(on_realize), 0},
-		{ "render",  G_CALLBACK(on_render),  0}
+		{ "render",  G_CALLBACK(on_render),  0},
+		{ "resize",  G_CALLBACK(on_resize),  0}
 	};
 	
 	connect_signals(glarea, signals, NELEM(signals));
@@ -100,7 +100,7 @@ bool gui_init(int *argc, char ***argv)
 	// init gtk
 	if (!gtk_init_check(argc, argv))
 	{
-		fputs("Could not initialize GTK", stderr);	
+		fputs("Could not initialize GTK", stderr);
 		return false;
 	}
 	return true;
@@ -114,7 +114,7 @@ bool gui_run(void)
 	gtk_container_add(GTK_CONTAINER(window), glarea);
 
 	// connect gtk signals
-	connect_window_signals(window);	
+	connect_window_signals(window);
 	connect_glarea_signals(glarea);
 	
 	gtk_widget_show_all(window);

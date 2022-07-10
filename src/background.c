@@ -16,8 +16,8 @@ struct vertex
 
 void background_set_window(int width, int height)
 {
-	float wd = (float) width / 16;
-	float ht = (float) height / 16;
+	float wd = (float)width / 16;
+	float ht = (float)height / 16;
 
 	/* background quad is made of four vertices:
 	 *
