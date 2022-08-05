@@ -28,6 +28,7 @@ LIB_INC         := $(shell pkg-config --cflags gtk+-3.0 gl)
 LIB_INC         += $(addprefix -I,$(RAND_INCLUDE))
 
 LIBS            := $(shell pkg-config --libs gtk+-3.0 gl)
+LIBS            += -lm
 
 CFLAGS          := -std=c99 -DGL_GLEXT_PROTOTYPES
 CFLAGS          += $(LIB_INC) -MMD -MP 

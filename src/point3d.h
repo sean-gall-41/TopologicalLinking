@@ -10,28 +10,38 @@
 #define MAX_PT_STR_LEN 112
 #define MAX_COORD_STR_LEN 32
 
-typedef struct 
+typedef struct point3d Point3D;
+
+struct point3d
 {
 	float x;
 	float y;
 	float z;
-} Point3D;
+} __attribute__((packed));
+
+extern const Point3D UNIT_X;
+extern const Point3D UNIT_Y;
+extern const Point3D UNIT_Z;
 
 void pt_init(Point3D *pt);
 
 void pt_reset(Point3D *pt);
 
-void pt_copy(Point3D *pt, Point3D *pt_cp);
+void pt_copy(const Point3D *pt, Point3D *pt_cp);
 
-float pt_norm_sq(Point3D *pt);
+float pt_norm_sq(const Point3D *pt);
 
-Point3D pt_add(Point3D *pt_1, Point3D *pt_2);
+void pt_normalize(Point3D *pt);
 
-Point3D pt_neg(Point3D *pt);
+Point3D pt_add(const Point3D *pt_1, const Point3D *pt_2);
 
-Point3D pt_subtr(Point3D *pt_1, Point3D *pt_2);
+Point3D pt_neg(const Point3D *pt);
 
-Point3D pt_mult(float scale, Point3D *pt);
+Point3D pt_subtr(const Point3D *pt_1, const Point3D *pt_2);
+
+Point3D pt_mult(float scale, const Point3D *pt);
+
+void pt_cross(Point3D *c, const Point3D *a, const Point3D *b);
 
 bool pt_great_than(Point3D *pt_1, Point3D *pt_2, float eps);
 

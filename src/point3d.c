@@ -1,5 +1,8 @@
 #include "point3d.h"
 
+const Point3D UNIT_X = {1.0, 0.0, 0.0};
+const Point3D UNIT_Y = {0.0, 1.0, 0.0};
+const Point3D UNIT_Z = {0.0, 0.0, 1.0};
 
 void pt_init(Point3D *pt)
 {
@@ -23,7 +26,7 @@ void pt_reset(Point3D *pt)
 }
 
 
-void pt_copy(Point3D *pt, Point3D *pt_cp)
+void pt_copy(const Point3D *pt, Point3D *pt_cp)
 {
 	pt_cp->x = pt->x;
 	pt_cp->y = pt->y;
@@ -31,13 +34,20 @@ void pt_copy(Point3D *pt, Point3D *pt_cp)
 }
 
 
-float pt_norm_sq(Point3D *pt)
+float pt_norm_sq(const Point3D *pt)
 {
 	return pt->x * pt->x + pt->y * pt->y + pt->z * pt->z;
 }
 
+void pt_normalize(Point3D *pt)
+{
+	float inv_norm = 1.0 / sqrtf(pt_norm_sq(pt)); /* expensive */
+	pt->x *= inv_norm;
+	pt->y *= inv_norm;
+	pt->z *= inv_norm;
+}
 
-Point3D pt_add(Point3D *pt_1, Point3D *pt_2)
+Point3D pt_add(const Point3D *pt_1, const Point3D *pt_2)
 {
 	Point3D result;
 	result.x = pt_1->x + pt_2->x;
@@ -47,7 +57,7 @@ Point3D pt_add(Point3D *pt_1, Point3D *pt_2)
 }
 
 
-Point3D pt_neg(Point3D *pt)
+Point3D pt_neg(const Point3D *pt)
 {
 	Point3D result;
 	result.x = -1.0 * pt->x;
@@ -57,14 +67,14 @@ Point3D pt_neg(Point3D *pt)
 }
 
 
-Point3D pt_subtr(Point3D *pt_1, Point3D *pt_2)
+Point3D pt_subtr(const Point3D *pt_1, const Point3D *pt_2)
 {
 	Point3D pt_2_neg = pt_neg(pt_2);
-	return pt_add(pt_1, &pt_2_neg);	
+	return pt_add(pt_1, &pt_2_neg);
 }
 
 
-Point3D pt_mult(float scale, Point3D *pt)
+Point3D pt_mult(float scale, const Point3D *pt)
 {
 	Point3D result;
 	result.x = scale * pt->x;
@@ -73,6 +83,12 @@ Point3D pt_mult(float scale, Point3D *pt)
 	return result;
 }
 
+void pt_cross(Point3D *c, const Point3D *a, const Point3D *b)
+{
+	c->x = a->y * b->z - a->z * b->y;
+	c->y = a->z * b->x - a->x * b->z;
+	c->z = a->x * b->y - a->y * b->x;
+}
 
 // NOTE: all point comparisons use epsilon = 1.0E-6 implicitly
 // FIXME: SHOULD NOT USE COMBINATION ORDER RELATION, ELEMENT-WISE EQUALITY VERSUS
